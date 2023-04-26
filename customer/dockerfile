@@ -1,0 +1,31 @@
+FROM node:18-alpine
+
+WORKDIR /home/app
+
+COPY package.json .
+
+RUN apk add --update --no-cache openssl openssl-dev openssl-doc
+
+# RUN apt-get update && apt-get install python3
+
+# RUN apt-get install -y \
+#   ca-certificates \
+#   build-base \
+#   python3 \
+#   python3-dev \
+#   cyrus-sasl-dev \
+#   krb5-dev \
+#   openssl-dev \
+#   && npm install node-rdkafka
+
+
+# Set the environment variable for Python executable
+ENV PYTHON python3
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
