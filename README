@@ -1,0 +1,43 @@
+- create request
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"name":"ahmed", "discount":"3"}' http://localhost:3001/offers/create
+```
+
+- delete request
+
+```bash
+curl -X DELETE http://localhost:3000/offers/delete/1
+```
+
+- update request
+
+```bash
+curl -X PUT -H "Content-Type: application/json" -d '{"name":"John", "age":30}' http://localhost:3000/offers/delete/4
+
+```
+
+- show group consumers in kafka server.
+
+```bash
+kafka-consumer-groups.sh --bootstrap-server kafka:9092 --describe --group group-test
+```
+
+```bash
+kafka-consumer-groups.sh --bootstrap-server kafka:9092 --reset-offsets --to-earliest --group group-test --all-topics
+```
+
+- select query from DB container.
+
+```bash
+SELECT * FROM `Offers
+```
+
+- to enter the mysql DB.
+
+```bash
+mysql -u root -p
+Enter password : example
+use my_db
+SELECT * FROM Offers;
+```

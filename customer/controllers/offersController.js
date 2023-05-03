@@ -1,44 +1,85 @@
 const express = require("express");
 const { sequelize } = require("../config");
 const { QueryTypes } = require("sequelize");
-const { Offer } = require("../models/offerModel");
+const { Offer, OFFER } = require("../models/offerModel");
 
 module.exports.getAllOffers = async (req, res) => {
-  // res.json({ hello: "world" });
   const data = await Offer.findAll();
-  // console.log(data);
+  console.log("All Offers : ", data);
   res.status(200).json(data);
-  // if (data) {
-  //   res.status(200).json(data);
-  // } else {
-  //   res.status(500).json({ message: "error" });
-  // }
 };
 
+// get
 module.exports.getOffersById = async (req, res) => {
   const { id } = req.params;
   const data = await Offer.findByPk(id);
 
-  // console.log(data);
+  console.log(`Offer id ${id} : `, data);
 
   if (data) {
     res.status(200).json(data);
   } else {
-    res.status(500).json({ message: "error" });
+    res.status(400).json({ message: "id does not exist" });
   }
-  // res.json({ hello: req.params.id });
 };
 
+// create.
+module.exports.createOffer = async (req, res) => {
+  const data = req.body;
+  console.log(data);
+
+  const obj = new OFFER(data.name, data.discount);
+  if (!obj.is_valid()) {
+    res.status(400).json({ message: "unvalid structre" });
+    return;
+  }
+
+  Offer.create(data);
+
+  // task
+  console.log("obj.get_values() ==> ", obj.get_values());
+
+  console.log(msg);
+  res.json({ data });
+};
+
+//update
+module.exports.updateOffer = async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+
+  const offer = await Offer.findByPk(id);
+
+  const obj = new OFFER(data.name, data.discount);
+
+  if (!obj.is_valid()) {
+    res.status(400).json({ message: "id does not exist" });
+    return;
+  }
+
+  await offer.update(data);
+
+  // task
+  console.log("obj.get_values() ==> ", obj.get_values());
+
+  res.json({ data });
+};
+
+// delete
+module.exports.deleteOffer = async (req, res) => {
+  const { id: Id } = req.params;
+  console.log(Id);
+  const ret = await Offer.destroy({ where: { id: Id } });
+  res.json({ ret });
+};
+
+// get all with select.
 module.exports.getAllOffersWithSelect = async (req, res) => {
-  const users = await sequelize.query("SELECT * FROM `Offers`", {
+  const Offers = await sequelize.query("SELECT * FROM `Offers`", {
     type: QueryTypes.SELECT,
   });
 
-  // console.log(users);
+  console.log("All Data with SELECT", Offers);
 
-  res.json({ data: users });
+  res.json({ data: Offers });
 };
-
-// module.exports.getAllOffers = (req, res) => {
-//     //
-// };
