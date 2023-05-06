@@ -3,13 +3,14 @@ const { sequelize } = require("../config");
 const { QueryTypes } = require("sequelize");
 const { Offer, OFFER } = require("../models/offerModel");
 
+// get All.
 module.exports.getAllOffers = async (req, res) => {
   const data = await Offer.findAll();
   console.log("All Offers : ", data);
   res.status(200).json(data);
 };
 
-// get
+// get by Id.
 module.exports.getOffersById = async (req, res) => {
   const { id } = req.params;
   const data = await Offer.findByPk(id);

@@ -30,14 +30,12 @@ kafka-consumer-groups.sh --bootstrap-server kafka:9092 --reset-offsets --to-earl
 - select query from DB container.
 
 ```bash
-SELECT * FROM `Offers
+SELECT * FROM "Offers" AS "Offers";
 ```
 
-- to enter the mysql DB.
+- to enter the postgres DB.
 
 ```bash
-mysql -u root -p
-Enter password : example
-use my_db
-SELECT * FROM Offers;
+psql -U root -d my_db
+SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_catalog = 'my_db';
 ```

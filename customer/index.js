@@ -18,22 +18,6 @@ const kafka = new Kafka({
   },
 });
 
-async function createData(data) {
-  Offer.create(data);
-  console.log(data);
-}
-async function deleteDAta(data) {
-  // try {
-  // const offer = await Offer.findByPk(data.id);
-  // await offer.destroy();
-  const Id = parseInt(data.id);
-  await Offer.destroy({ where: { id: Id } });
-  console.log(data);
-  // } catch (error) {
-  // console.log(error);
-  // }
-}
-
 async function start() {
   const consumer = kafka.consumer({ groupId: "group-test" });
 
